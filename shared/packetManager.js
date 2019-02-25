@@ -4,7 +4,7 @@ var PacketManager = {
     aid: 0,
 
     initialize: function(t) {
-        for(var key in t) {
+        for (var key in t) {
             this.add(t[key]);
         }
     },
