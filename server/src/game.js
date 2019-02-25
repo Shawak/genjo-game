@@ -6,12 +6,6 @@ class Game {
         this.clients = clients;
         this.currentPlayerIndex = 0;
         this.turnCount = 0;
-
-        // field is 33x55
-        /*this.field = new Array(33);
-        for (let x = 0; x < 55; x++) {
-            this.field[x] = new Array(55);
-        }*/
         this.width = 33;
         this.height = 55;
         this.field = array(this.width, this.height);
