@@ -2,7 +2,7 @@
 
     var ENABLE_AUTO_PLAY = window.location.hash === '#autoplay';
 
-    var settings = { // 31x59 = 1.829
+    var settings = {
         field: {
             width: 33,
             height: 55,
