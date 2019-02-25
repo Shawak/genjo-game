@@ -28,58 +28,9 @@ class Client {
         });
 
         this.network = new EventHandler();
-        /*this.network.link(Packets.LoginPacket, this.onLoginPacket, this);
-        this.network.link(Packets.RequestLobbiesPacket, this.onRequestLobbiesPacket, this);
-        this.network.link(Packets.CreateLobbyPacket, this.onCreateLobbyPacket, this);
-        this.network.link(Packets.JoinLobbyPacket, this.onJoinLobbyPacket, this);*/
-
-        /*setInterval(() => this.send(new Packets.PingPacket()), 1000);*/
     }
-
-    /*onLoginPacket(sender, packet) {
-        if (!this.user) {
-            this.server.db.login(packet.username, packet.password).then(user => {
-                if (user) {
-                    this.user = {
-                        id: user.id,
-                        name: user.name
-                    };
-                    this.send(new Packets.LoginResultPacket(true));
-                } else {
-                    this.send(new Packets.LoginResultPacket(false));
-                }
-            });
-        }
-    }
-
-    onRequestLobbiesPacket(sender, packet) {
-        let lobbies = [];
-        for (let lobby of this.server.getLobbies()) {
-            lobbies.push({
-                id: lobby.id,
-                name: lobby.name,
-                clients: lobby.getClientsCount()
-            });
-        }
-        this.send(new Packets.ListLobbiesPacket(lobbies));
-    }
-
-    onCreateLobbyPacket(sender, packet) {
-        if (this.user) {
-            let lobby = this.server.createLobby();
-            lobby.join(this);
-        }
-    }
-
-    onJoinLobbyPacket(sender, packet) {
-        let lobby = this.server.getLobby(packet.lobbyID);
-        if (lobby && this.user) {
-            lobby.join(this);
-        }
-    }*/
 
     send(packet) {
-        // console.log('[' + (this.user ? this.user.name : this.id) + '] ' + PacketManager.pack(packet));
         this.socket.emit('packet', PacketManager.pack(packet));
     }
 

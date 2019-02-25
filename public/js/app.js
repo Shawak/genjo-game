@@ -39,16 +39,6 @@
             ('0' + parseInt(b, 10).toString(16)).slice(-2);
     }
 
-    /*function array(length) {
-        let arr = new Array(length || 0);
-        if (arguments.length > 1) {
-            let args = Array.prototype.slice.call(arguments, 1);
-            let i = length;
-            while (i--) arr[length - 1 - i] = array.apply(this, args);
-        }
-        return arr;
-    }*/
-
     function background() {
         var bg = document.createElement('canvas');
         bg.width = canvas.width;
