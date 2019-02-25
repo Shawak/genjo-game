@@ -24,7 +24,6 @@ class GameServer {
 
             socket.on('disconnect', () => {
                 let client = this.clients.find(client => client.socket === socket);
-                //client.onDisconnect.dispatch();
                 this.clients.splice(this.clients.indexOf(client), 1);
                 console.log('client #' + client.id + ' has disconnected.');
             });
