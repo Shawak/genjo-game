@@ -1,0 +1,14 @@
+{
+  "apps": [{
+    "name": "app",
+    "script": "src/app.js",
+    "env": {
+      "production": true
+    },
+    "watch": true,
+    "ignore_watch" : ["node_modules"],
+    "watch_options": {
+      "usePolling": true
+    }
+  }]
+}

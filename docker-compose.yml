@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  server:
+    build: server
+    volumes:
+      - ./public:/app/public
+      - ./server:/app/server
+      - ./shared:/app/shared
+      - /app/server/node_modules
+    ports:
+      - '80:80'
+      - '1234:1234'
+    #links:
+    #  - db
+    #depends_on:
+    #  - db
+    restart: always
+
+  #db:
+  #  image: mysql:5.7
+  #  volumes:
+  #    - ./db:/var/lib/mysql
+  #  environment:
+  #    MYSQL_USER: dev
+  #    MYSQL_PASSWORD: 123456
+  #    MYSQL_DATABASE: genjo
+  #    MYSQL_ROOT_PASSWORD: 123456
+  #  restart: always

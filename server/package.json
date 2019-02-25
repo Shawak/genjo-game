@@ -1,0 +1,17 @@
+{
+  "name": "app",
+  "description": "sdasd",
+  "repository": "http://github.com/Shawak",
+  "license": "UNLICENSED",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "sequelize": "3.30.4",
+    "socket.io": "1.7.3"
+  },
+  "scripts": {
+    "start": "pm2 start pm2.json",
+    "stop": "app"
+  }
+}
