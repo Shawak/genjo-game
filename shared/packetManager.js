@@ -16,8 +16,8 @@ var PacketManager = {
     pack: function (packet) {
         var type = Object.getPrototypeOf(packet);
         var id = -1;
-        for(var i = 0; i < this.aid; i++) {
-            if(this.lookup[i] == type) {
+        for (var i = 0; i < this.aid; i++) {
+            if (this.lookup[i] === type) {
                 id = i;
                 break;
             }
