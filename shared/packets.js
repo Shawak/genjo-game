@@ -5,12 +5,13 @@ function GameStartPacket(playerIndex) {
     this.playerIndex = playerIndex;
 } exports.GameStartPacket = GameStartPacket;
 
-function NextTurnPacket(field, block, currentPlayerIndex, rolls, scores) {
+function NextTurnPacket(field, block, currentPlayerIndex, rolls, scores, positions) {
     this.field = field;
     this.block = block;
     this.currentPlayerIndex = currentPlayerIndex;
     this.rolls = rolls;
     this.scores = scores;
+    this.positions = positions;
 } exports.NextTurnPacket = NextTurnPacket;
 
 function PlaceBlockPacket(pos) {

@@ -16,6 +16,8 @@
         block: null,
         field: null,
         scores: null,
+        positions: null,
+        end: false,
 
         playerIndex: -1,
         currentPlayerIndex: -1,
@@ -81,7 +83,7 @@
                 }
             }
 
-        if (game.playerIndex !== game.currentPlayerIndex)
+        if (game.playerIndex !== game.currentPlayerIndex || game.end)
             return;
 
         // draw hover block
@@ -93,75 +95,18 @@
 
     draw();
 
-    function canPlace(pos) {
-        return hasFriendlyNeighbour(pos) && isPosFree(pos);
-    }
-
-    function hasFriendlyNeighbour(pos) {
-        // bounds check
-        if (pos.x < 0 || pos.x + game.block.length > game.field.length ||
-            pos.y < 0 || pos.y + game.block[0].length > game.field[0].length)
-            return false;
-
-        // allow starting position
-        if (pos.y === 0 && game.playerIndex === 0)
-            return true;
-
-        if (pos.y === game.field[0].length - game.block[0].length && game.playerIndex === 1)
-            return true;
-
-        // allow x neighbours
-        for (var x = pos.x; x < pos.x + game.block.length; x++)
-            if (game.field[x][pos.y - 1] === game.playerIndex)
-                return true;
-
-        for (var x = pos.x; x < pos.x + game.block.length; x++)
-            if (game.field[x][pos.y + game.block[0].length] === game.playerIndex)
-                return true;
-
-        // allow y neighbours
-        if (pos.x !== 0)
-            for (var y = pos.y; y < pos.y + game.block[0].length; y++)
-                if (game.field[pos.x - 1][y] === game.playerIndex)
-                    return true;
-
-        if (pos.x < game.field.length - game.block.length)
-            for (var y = pos.y; y < pos.y + game.block[0].length; y++)
-                if (game.field[pos.x + game.block.length][y] === game.playerIndex)
-                    return true;
-    }
-
-    function isPosFree(pos) {
-        for (var by = 0; by < game.block[0].length; by++) {
-            for (var bx = 0; bx < game.block.length; bx++) {
-                var fy = by + pos.y;
-                var fx = bx + pos.x;
-                if (fy < 0 || fy >= game.field[0].length ||
-                    fx < 0 || fx >= game.field.length)
-                        return false;
-
-                if (game.field[fx][fy] !== -1)
-                    return false;
-            }
-        }
-        return true;
-    }
-
-    function getPlaceablePositions() {
-        var positions = [];
-        for (var y = 0; y < game.field[0].length; y++) {
-            for (var x = 0; x < game.field.length; x++) {
-                var pos = { x : x, y: y };
-                if (canPlace(pos))
-                    positions.push(pos);
-            }
-        }
-        return positions;
-    }
-
     // min & max inclusive
     function random(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    function canPlace(pos) {
+        for (var i = 0; i < game.positions.length; i++) {
+            if (game.positions[i].x === pos.x && game.positions[i].y === pos.y) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function toFieldPos(e) {
@@ -205,22 +150,16 @@
         game.currentPlayerIndex = packet.currentPlayerIndex;
         game.currentRolls = packet.rolls;
         game.scores = packet.scores;
+        game.positions = packet.positions;
 
         document.getElementById('red').innerText = game.scores[0];
         document.getElementById('blue').innerText = game.scores[1];
 
-        if (game.currentPlayerIndex !== game.playerIndex)
-            return;
-
-        var positions = getPlaceablePositions();
-        if (positions.length === 0) {
-            client.send(new GameEndPacket());
-        }
-        else if (ENABLE_AUTO_PLAY) {
-            client.send(new PlaceBlockPacket(positions[random(0, positions.length - 1)]));
-        }
-
         draw();
+
+        if (game.currentPlayerIndex === game.playerIndex && ENABLE_AUTO_PLAY) {
+            client.send(new PlaceBlockPacket(game.positions[random(0, game.positions.length - 1)]));
+        }
     }
 
     function onChatMessagePacket(sender, packet) {
@@ -232,6 +171,10 @@
         }
         chat.value += (chat.value !== "" ? "\n" :"") + packet.from + packet.message;
         chat.scrollTop = chat.scrollHeight
+    }
+
+    function onGameEndPacket(sender, packet) {
+        game.end = true;
     }
 
     document.getElementById('chat-message').onkeydown = function(e) {
@@ -246,6 +189,7 @@
     client.network.link(GameStartPacket, onGameStartPacket, this);
     client.network.link(NextTurnPacket, onNextTurnPacket, this);
     client.network.link(ChatMessagePacket, onChatMessagePacket, this);
+    client.network.link(GameEndPacket, onGameEndPacket, this);
 
     client.send(new EnterQueuePacket());
 
