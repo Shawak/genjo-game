@@ -1,6 +1,6 @@
 (function() {
 
-    var ENABLE_AUTO_PLAY = true;
+    var ENABLE_AUTO_PLAY = window.location.hash === '#autoplay';
 
     var settings = { // 31x59 = 1.829
         field: {
