@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Title -->
+    <title>Genjo</title>
+
     <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Genjo</title>
+    <meta name="description" content="genjo-game">
+    <meta name="author" content="Maximilian Nussbaum">
 
     <!-- Libs -->
     <script src="socket-io/socket.io.min.js"></script>
 
     <!-- Style -->
+    <link rel="icon" href="img/favicon.png">
     <link href="css/standard.css" rel="stylesheet">
 </head>
 <body>
@@ -37,13 +41,12 @@
     <!-- JS hack (..) to work with older browsers -->
     <script>
         window.exports = {};
-        window.module = {}
+        window.module = {};
     </script>
     <script src="shared/packetManager.js"></script>
     <script src="shared/packets.js"></script>
     <script>PacketManager.initialize(window.exports);</script>
     <script src="shared/eventHandler.js"></script>
-
     <script src="js/client.js"></script>
     <script src="js/app.js"></script>
 </body>
