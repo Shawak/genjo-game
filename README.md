@@ -18,7 +18,7 @@ To play against a "bot", open "http://localhost/#autoplay" and "http://localhost
 
 ### Screenshot
 
-![screenshot.jpg](https://github.com/Shawak/genjo-game/blob/master)
+![screenshot.jpg](https://github.com/Shawak/genjo-game/blob/master/screenshot.jpg)
 
 ### License
 
