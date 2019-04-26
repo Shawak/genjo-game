@@ -12,8 +12,5 @@ COPY pm2.json ./
 # install packages
 RUN npm install
 
-# copy files
-#COPY . .
-
 # run
 CMD ["pm2-docker", "start", "pm2.json"]
